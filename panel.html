@@ -43,6 +43,16 @@
     <symbol id="i-slides" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2.5"/><path d="M12 16v4M8.5 20h7M7 8.5h6M7 11.5h4"/></symbol>
     <symbol id="i-layout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="17" height="17" rx="3"/><path d="M3.5 9h17M9.5 9v11.5"/></symbol>
     <symbol id="i-sidebar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4" width="17" height="16" rx="3"/><path d="M9.5 4v16M15.5 10l-2 2 2 2"/></symbol>
+    <symbol id="i-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4.5 20.5c.8-4 3.8-6 7.5-6s6.7 2 7.5 6"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7.5 8 5.5 8-5.5"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4.5 6v5.5c0 4.6 3.1 8 7.5 9.5 4.4-1.5 7.5-4.9 7.5-9.5V6z"/><path d="m9 12 2 2 4-4"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="10.5" width="15" height="10" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></symbol>
+    <symbol id="i-school" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 9 4.5-9 4.5-9-4.5z"/><path d="M6.5 9.5v5c1.5 1.6 3.4 2.5 5.5 2.5s4-.9 5.5-2.5v-5M21 7.5v6"/></symbol>
+    <symbol id="i-send" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M6 11l6-6 6 6"/></symbol>
+    <symbol id="i-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5 10 17l9-10"/></symbol>
+    <symbol id="i-camera" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8.5A2 2 0 0 1 6 6.5h2l1.5-2h5L16 6.5h2a2 2 0 0 1 2 2V17a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><circle cx="12" cy="12.5" r="3.3"/></symbol>
+    <symbol id="i-logout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h3.5A2.5 2.5 0 0 1 20 6.5v11a2.5 2.5 0 0 1-2.5 2.5H14"/><path d="M10 8l-4 4 4 4M6 12h9"/></symbol>
   </defs>
 </svg>
 
@@ -67,17 +77,22 @@
       <span><strong>Ekosistemi keşfet</strong><span>Altı platform tek oturumda</span></span>
       <svg class="icon go" aria-hidden="true"><use href="#i-arrow" /></svg>
     </a>
+    <a class="side-profile" href="#profil" data-nav="profil" title="Profil">
+      <span class="avatar" data-avatar>EY</span>
+      <span class="sp-text"><strong data-fullname>Elif Yılmaz</strong><span>Öğrenci · 7-A</span></span>
+      <svg class="icon go" aria-hidden="true"><use href="#i-arrow" /></svg>
+    </a>
   </aside>
 
   <div class="content">
     <header class="bar">
       <label class="search"><svg class="icon" aria-hidden="true"><use href="#i-search" /></svg><input type="search" placeholder="Araç, model veya özellik ara…" aria-label="Ara" data-search></label>
       <button type="button" class="icon-btn" aria-label="Bildirimler"><svg class="icon"><use href="#i-bell" /></svg><span class="dot"></span></button>
-      <button type="button" class="user" aria-label="Hesap menüsü">
+      <a class="user" href="#profil" aria-label="Profil">
         <span class="avatar" data-avatar>EY</span>
         <span class="user-name"><span>Merhaba,</span><strong data-name>Elif</strong></span>
         <svg class="icon" aria-hidden="true"><use href="#i-down" /></svg>
-      </button>
+      </a>
     </header>
 
     <!-- ana sayfa -->
@@ -186,7 +201,103 @@
         </aside>
       </div>
     </section>
+
+    <!-- profil: sol alttaki profil sekmesinden ve üst sağdaki addan açılır. Masaüstünde tek ekran, kaydırma yok. -->
+    <section class="view page profile" data-view="profil" aria-labelledby="pf-h" hidden>
+      <div class="pf-cover">
+        <div class="pf-id">
+          <div class="pf-avatar-wrap">
+            <span class="avatar xl" data-avatar>EY</span>
+          </div>
+          <div class="pf-name">
+            <h1 id="pf-h" data-fullname>Elif Yılmaz</h1>
+            <p><span class="pf-badge">Öğrenci</span><span>7-A</span><span>Demo Okulları</span></p>
+          </div>
+        </div>
+        <div class="pf-stats">
+          <div><strong>24</strong><span>proje</span></div>
+          <div><strong>81</strong><span>beceri puanı</span></div>
+          <div><strong>6</strong><span>platform</span></div>
+          <img class="pf-trophy" src="assets/profil/p08.png" alt="" onerror="this.remove()">
+        </div>
+      </div>
+
+      <div class="pf-grid">
+        <form class="pf-card pf-form" data-pf-form novalidate>
+          <img class="pf-art" src="assets/profil/p01.png" alt="" onerror="this.remove()">
+          <div class="pf-card-head"><h2>Kişisel bilgiler</h2><span class="pf-hint">Öğretmenin ve okulun görür</span></div>
+          <div class="pf-fields">
+            <label class="fld wide"><span>Ad soyad</span><input name="ad" value="Elif Yılmaz" autocomplete="name" required data-pf-ad></label>
+            <div class="fld ro"><span>E-posta</span><span class="ro-box"><svg class="icon" aria-hidden="true"><use href="#i-mail" /></svg><span>elif.yilmaz@demo.ai-la.ai</span><svg class="icon lock" aria-label="Okul tarafından yönetilir"><use href="#i-lock" /></svg></span></div>
+            <div class="fld ro"><span>Sınıf / grup</span><span class="ro-box"><svg class="icon" aria-hidden="true"><use href="#i-school" /></svg><span>7. Sınıf · 7-A</span><svg class="icon lock" aria-label="Okul tarafından yönetilir"><use href="#i-lock" /></svg></span></div>
+            <label class="fld wide about"><span>Hakkımda <em data-pf-count>0/120</em></span><textarea name="hakkimda" rows="2" maxlength="120" data-pf-about placeholder="Kendinden kısaca bahset">Uzayı ve çizim yapmayı seviyorum.</textarea></label>
+            <fieldset class="fld wide"><legend>İlgi alanların <em>en çok 5</em></legend><div class="pf-tags" data-pf-tags></div></fieldset>
+          </div>
+          <div class="pf-actions"><span class="pf-saved" role="status" data-pf-status></span><button type="submit" class="btn-primary">Kaydet</button></div>
+        </form>
+
+        <div class="pf-col one">
+          <!-- Seni tanıyalım formu sonraki aşamada buraya bağlanacak; şimdilik yalnız bağlantı (js: TANI_FORM_URL) -->
+          <a class="pf-tile form-tile" href="#" data-tani-link>
+            <span class="tile-eyebrow">Yakında</span>
+            <strong>Seni tanıyalım formu</strong>
+            <span class="tile-text">İlgi alanların, öğrenme biçimin ve hedeflerin. Doldurduğunda araçlar sana göre ayarlanır.</span>
+            <img class="tile-art mid" src="assets/profil/p05a.png" alt="" onerror="this.remove()">
+            <span class="tile-go">Forma git<svg class="icon" aria-hidden="true"><use href="#i-arrow" /></svg></span>
+          </a>
+        </div>
+
+        <div class="pf-col">
+            <section class="pf-card pf-account" aria-labelledby="pf-sec-h">
+              <img class="pf-art" src="assets/profil/p02.png" alt="" onerror="this.remove()">
+              <div class="pf-card-head"><h2 id="pf-sec-h">Hesap ve güvenlik</h2></div>
+              <ul class="pf-checks">
+                <li><span class="pf-ic ok"><svg class="icon" aria-hidden="true"><use href="#i-shield" /></svg></span><span><strong>Hesabın aktif ve güvende</strong><span>Verilerin uçtan uca şifrelenir.</span></span></li>
+                <li><span class="pf-ic"><svg class="icon" aria-hidden="true"><use href="#i-lock" /></svg></span><span><strong>Son giriş</strong><span>Bugün 09:12 · bu cihaz</span></span></li>
+              </ul>
+              <button type="button" class="pf-tile btn-tile" data-pw-open>
+                <img class="tile-art" src="assets/profil/p03.png" alt="" onerror="this.remove()">
+                <strong>Parolayı değiştir</strong><span class="tile-text">Son değişiklik 3 ay önce</span>
+                <svg class="icon tile-arrow" aria-hidden="true"><use href="#i-arrow" /></svg>
+              </button>
+
+            <img class="pf-art low" src="assets/profil/p04.png" alt="" onerror="this.remove()">
+            <h3 class="pf-sub" id="pf-pref-h">Tercihler</h3>
+            <label class="tg"><img class="tg-art" src="assets/profil/p06.png" alt="" onerror="this.remove()"><span><strong>Bildirimler</strong><span>Yeni görevler ve yorumlar</span></span><input type="checkbox" role="switch" checked><i aria-hidden="true"></i></label>
+            <div class="tg"><span class="tg-ic aa">Aa</span><span><strong>Yazı boyutu</strong><span>Tüm panelde geçerli</span></span>
+              <span class="seg" role="radiogroup" aria-label="Yazı boyutu" data-pf-size><button type="button" role="radio" aria-checked="true" data-size="n">A</button><button type="button" role="radio" aria-checked="false" data-size="l">A+</button></span></div>
+            <a class="pf-out" href="giris.html"><svg class="icon" aria-hidden="true"><use href="#i-logout" /></svg>Çıkış yap</a>
+            </section>
+        </div>
+      </div>
+
+      <dialog class="pf-dlg" aria-labelledby="pw-h" data-pw-dlg>
+        <form data-pf-pass-form novalidate>
+          <img class="pf-art" src="assets/profil/p03.png" alt="" onerror="this.remove()">
+          <div class="pf-card-head"><h2 id="pw-h">Parolayı değiştir</h2></div>
+          <label class="fld"><span>Mevcut parola</span><span class="pw"><input type="password" autocomplete="current-password" required data-pw-old><button type="button" aria-label="Parolayı göster" data-pw-eye><svg class="icon" aria-hidden="true"><use href="#i-eye" /></svg></button></span></label>
+          <label class="fld"><span>Yeni parola</span><span class="pw"><input type="password" autocomplete="new-password" required data-pw-new><button type="button" aria-label="Parolayı göster" data-pw-eye><svg class="icon" aria-hidden="true"><use href="#i-eye" /></svg></button></span></label>
+          <div class="pw-meter" data-pw-meter aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+          <p class="pw-tip" data-pw-tip>En az 8 karakter, bir rakam ve bir büyük harf.</p>
+          <label class="fld"><span>Yeni parola (tekrar)</span><span class="pw"><input type="password" autocomplete="new-password" required data-pw-again><button type="button" aria-label="Parolayı göster" data-pw-eye><svg class="icon" aria-hidden="true"><use href="#i-eye" /></svg></button></span></label>
+          <div class="pf-actions"><span class="pf-saved" role="status" data-pw-status></span><button type="button" class="btn-ghost" data-pw-close>Vazgeç</button><button type="submit" class="btn-primary">Güncelle</button></div>
+        </form>
+      </dialog>
+    </section>
   </div>
 </div>
+
+<!-- sohbet: sağ alttaki AI-LA işaretiyle açılır; yalnız yazı alanı -->
+<div class="chat" data-chat>
+  <div class="chat-pop" id="chat-pop" role="dialog" aria-label="AI-LA'ya yaz" data-chat-pop hidden>
+    <ol class="chat-log" aria-live="polite" data-chat-log></ol>
+    <form class="chat-form" data-chat-form>
+      <textarea rows="1" placeholder="AI-LA'ya bir şey sor…" aria-label="Mesaj" data-chat-input></textarea>
+      <button type="submit" class="chat-send" aria-label="Gönder" disabled data-chat-send><svg class="icon" aria-hidden="true"><use href="#i-send" /></svg></button>
+    </form>
+  </div>
+  <button type="button" class="chat-fab" aria-expanded="false" aria-controls="chat-pop" aria-label="AI-LA asistanı" data-chat-fab><img src="assets/aila-mark.png" alt="" width="30" height="30"></button>
+</div>
 </body>
+
 </html>

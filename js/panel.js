@@ -19,15 +19,17 @@ st.setProperty("--v-tint", oklchToHex([0.965, 0.03, H + 38]));
 const hues = [0, 14, 26, 38].map((d) => [oklchToHex([0.5, Math.max(C, 0.15), H + d]), oklchToHex([0.955, 0.035, H + d])]);
 
 const ROLES = {
-  ogrenci: { name: "Elif", avatar: "EY" },
-  ogretmen: { name: "Ayşe Hoca", avatar: "AK" },
-  yonetici: { name: "Mehmet Bey", avatar: "MD" },
+  ogrenci: { name: "Elif", full: "Elif Yılmaz", avatar: "EY" },
+  ogretmen: { name: "Ayşe Hoca", full: "Ayşe Kaya", avatar: "AK" },
+  yonetici: { name: "Mehmet Bey", full: "Mehmet Demir", avatar: "MD" },
 };
 const R = ROLES[q.get("rol")] || ROLES.ogrenci;
-$("[data-name]").textContent = R.name;
-$("[data-avatar]").textContent = R.avatar;
-
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+// ad ve baş harfler birden çok yerde: üst çubuk, sol alttaki profil sekmesi, profil sayfası
+const setText = (sel, v) => $$(sel).forEach((el) => { el.textContent = v; });
+setText("[data-name]", R.name);
+setText("[data-fullname]", R.full);
+setText("[data-avatar]", R.avatar);
 const ARROW = '<svg class="icon go" aria-hidden="true"><use href="#i-arrow" /></svg>';
 
 /* ---------- araçlar: ana sayfada ilk sekizi, Araçlar sayfasında hepsi ---------- */
@@ -50,20 +52,23 @@ const TOOLS = [
   ["i-layers", "Akışlar", "Adım adım ilerleyen öğrenme senaryoları.", "ogrenme"],
 ];
 const CATS = [["tum", "Tümü"], ["gorsel", "Görsel"], ["video", "Video"], ["yazi", "Yazı"], ["ses", "Ses"], ["kod", "Kod"], ["ogrenme", "Öğrenme"]];
-const toolCard = ([icon, t, d], i) => {
-  const [hue, tint] = hues[i % 4];
+TOOLS.forEach((t, i) => { t.n = i; });   // görsel ve renk aracın kendisine bağlı; süzünce değişmez
+const toolCard = (tool) => {
+  const [icon, t, d] = tool, [hue, tint] = hues[tool.n % 4];
+  const art = `assets/araclar/t${String(tool.n + 1).padStart(2, "0")}.png`;
   return `<li><a class="tool" href="#" style="--hue:${hue};--tint:${tint}">
+    <span class="tool-art"><img src="${art}" alt="" loading="lazy" onerror="this.closest('.tool').classList.add('no-art')"></span>
     <span class="tool-icon"><svg class="icon" aria-hidden="true"><use href="#${icon}" /></svg></span>
     <strong>${t}</strong><span>${d}</span>${ARROW}</a></li>`;
 };
-$("[data-tools]").innerHTML = TOOLS.slice(0, 8).map(toolCard).join("");
+$("[data-tools]").innerHTML = TOOLS.slice(0, 8).map((t) => toolCard(t)).join("");
 
 const allTools = $("[data-all-tools]"), toolsEmpty = $("[data-tools-empty]");
 let cat = "tum", term = "";
 const norm = (x) => x.toLocaleLowerCase("tr");
 const renderTools = () => {
   const list = TOOLS.filter((t) => (cat === "tum" || t[3] === cat) && (!term || norm(t[1] + " " + t[2]).includes(term)));
-  allTools.innerHTML = list.map(toolCard).join("");
+  allTools.innerHTML = list.map((t) => toolCard(t)).join("");
   toolsEmpty.hidden = list.length > 0;
 };
 const chips = (host, items, onPick) => {
@@ -168,7 +173,8 @@ const go = () => {
   if (view === "gorev" && !renderTask($("[data-task]"), decodeURIComponent(arg || ""))) view = "ana";
   $$("[data-view]").forEach((v) => { v.hidden = v.dataset.view !== view; });
   $$("[data-nav]").forEach((a) => { if (a.dataset.nav === view) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current"); });
-  document.title = `${view === "gorev" ? $("#gorev-h").textContent : $(`[data-nav="${view}"]`).textContent.trim()} · AI-LA`;
+  const label = view === "gorev" ? $("#gorev-h").textContent : view === "profil" ? "Profil" : $(`[data-nav="${view}"]`).textContent.trim();
+  document.title = `${label} · AI-LA`;
   week.active(view === "ana");
   if (view === "kendini-tani") {
     if (!skillMap) {
@@ -194,4 +200,125 @@ sideBtn.addEventListener("click", () => {
   const c = !app.classList.contains("is-collapsed");
   setSide(c);
   try { localStorage.setItem("aila-side", c ? "dar" : "genis"); } catch (e) { /* yok say */ }
+});
+
+/* ---------- profil ---------- */
+// "Seni tanıyalım" formu sonraki aşamada hazırlanacak; adresi belli olunca buraya yazılır.
+const TANI_FORM_URL = null;
+
+const PF_TAGS = ["Uzay", "Çizim", "Kodlama", "Müzik", "Robotik", "Doğa", "Spor", "Hikâye yazma", "Film", "Matematik"];
+const pfOn = new Set(["Uzay", "Çizim"]);
+const tagsHost = $("[data-pf-tags]");
+tagsHost.innerHTML = PF_TAGS.map((t) => `<button type="button" class="tag" aria-pressed="${pfOn.has(t)}">${t}</button>`).join("");
+tagsHost.addEventListener("click", (e) => {
+  const b = e.target.closest(".tag"); if (!b) return;
+  const on = b.getAttribute("aria-pressed") !== "true";
+  if (on && $$(".tag[aria-pressed=true]", tagsHost).length >= 5) { flash($("[data-pf-status]"), "En çok 5 ilgi alanı seçebilirsin.", true); return; }
+  b.setAttribute("aria-pressed", String(on));
+});
+
+const about = $("[data-pf-about]"), aboutCount = $("[data-pf-count]");
+const countAbout = () => { aboutCount.textContent = `${about.value.length}/${about.maxLength}`; };
+about.addEventListener("input", countAbout); countAbout();
+
+const flashT = new WeakMap();
+const flash = (el, msg, bad = false) => {
+  el.textContent = msg; el.classList.toggle("bad", bad); el.classList.add("on");
+  clearTimeout(flashT.get(el)); flashT.set(el, setTimeout(() => el.classList.remove("on"), 2600));
+};
+const initials = (full) => full.trim().split(/\s+/).filter(Boolean).slice(0, 2).map((w) => w[0].toLocaleUpperCase("tr")).join("") || "?";
+
+$("[data-pf-form]").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const ad = $("[data-pf-ad]");
+  if (ad.value.trim().split(/\s+/).length < 2) { ad.setAttribute("aria-invalid", "true"); ad.focus(); flash($("[data-pf-status]"), "Ad ve soyadını birlikte yaz.", true); return; }
+  ad.removeAttribute("aria-invalid");
+  setText("[data-fullname]", ad.value.trim());
+  setText("[data-name]", ad.value.trim().split(/\s+/)[0]);
+  setText("[data-avatar]", initials(ad.value));
+  flash($("[data-pf-status]"), "Kaydedildi");   // demo: sunucuya gönderilmez
+});
+
+// form bağlantısı: adres yoksa bilgi verir
+const taniLink = $("[data-tani-link]");
+if (TANI_FORM_URL) taniLink.href = TANI_FORM_URL;
+taniLink.addEventListener("click", (e) => {
+  if (TANI_FORM_URL) return;
+  e.preventDefault();
+  const tx = taniLink.querySelector(".tile-go");
+  tx.firstChild.textContent = "Form çok yakında burada";
+  taniLink.classList.add("soon");
+});
+
+// parola: ayrı pencerede, sayfa kaymaz
+const dlg = $("[data-pw-dlg]"), pwForm = $("[data-pf-pass-form]");
+const pwNew = $("[data-pw-new]"), pwMeter = $("[data-pw-meter]"), pwTip = $("[data-pw-tip]");
+const TIP = "En az 8 karakter, bir rakam ve bir büyük harf.";
+const resetPw = () => { pwForm.reset(); pwMeter.dataset.level = 0; pwTip.textContent = TIP; };
+$("[data-pw-open]").addEventListener("click", () => { resetPw(); dlg.showModal(); $("[data-pw-old]").focus(); });
+$("[data-pw-close]").addEventListener("click", () => dlg.close());
+dlg.addEventListener("click", (e) => { if (e.target === dlg) dlg.close(); });   // pencere dışına tıklayınca kapanır
+$$("[data-pw-eye]").forEach((b) => b.addEventListener("click", () => {
+  const i = b.previousElementSibling, show = i.type === "password";
+  i.type = show ? "text" : "password"; b.setAttribute("aria-label", show ? "Parolayı gizle" : "Parolayı göster");
+}));
+const strength = (v) => [v.length >= 8, /\d/.test(v), /[A-ZÇĞİÖŞÜ]/.test(v), v.length >= 12 || /[^\w\s]/.test(v)].filter(Boolean).length;
+pwNew.addEventListener("input", () => {
+  const n = pwNew.value ? strength(pwNew.value) : 0;
+  pwMeter.dataset.level = n;
+  pwTip.textContent = !pwNew.value ? TIP : ["Çok zayıf", "Zayıf", "Fena değil", "İyi", "Güçlü"][n];
+});
+pwForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const st = $("[data-pw-status]");
+  if (!$("[data-pw-old]").value) return flash(st, "Mevcut parolanı yaz.", true);
+  if (strength(pwNew.value) < 3) return flash(st, "Yeni parola daha güçlü olmalı.", true);
+  if ($("[data-pw-again]").value !== pwNew.value) return flash(st, "İki parola aynı değil.", true);
+  dlg.close();
+  const tile = $("[data-pw-open] .tile-text");
+  tile.textContent = "Parolan az önce güncellendi";
+});
+
+// yazı boyutu tercihi bu tarayıcıda hatırlanır
+const sizeSeg = $("[data-pf-size]");
+const setSize = (k) => {
+  document.documentElement.classList.toggle("text-l", k === "l");
+  $$("button", sizeSeg).forEach((b) => b.setAttribute("aria-checked", String(b.dataset.size === k)));
+};
+try { setSize(localStorage.getItem("aila-yazi") || "n"); } catch (e) { /* depolama kapalı */ }
+sizeSeg.addEventListener("click", (e) => {
+  const b = e.target.closest("button"); if (!b) return;
+  setSize(b.dataset.size);
+  try { localStorage.setItem("aila-yazi", b.dataset.size); } catch (e2) { /* yok say */ }
+});
+
+/* ---------- sohbet: sağ alttaki işaret; yalnız yazı alanı, demo yanıtlar ---------- */
+const fab = $("[data-chat-fab]"), pop = $("[data-chat-pop]"), log = $("[data-chat-log]");
+const input = $("[data-chat-input]"), send = $("[data-chat-send]");
+const openChat = (open) => {
+  pop.hidden = !open; fab.setAttribute("aria-expanded", String(open));
+  if (open) input.focus();
+};
+fab.addEventListener("click", () => openChat(pop.hidden));
+addEventListener("keydown", (e) => { if (e.key === "Escape" && !pop.hidden) { openChat(false); fab.focus(); } });
+const grow = () => { input.style.height = "auto"; input.style.height = Math.min(input.scrollHeight, 140) + "px"; send.disabled = !input.value.trim(); };
+input.addEventListener("input", grow);
+input.addEventListener("keydown", (e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); $("[data-chat-form]").requestSubmit(); } });
+const REPLIES = [
+  "Güzel soru. Önce konuyu bir cümleyle anlatır mısın, sonra birlikte adım adım ilerleyelim.",
+  "Bunu Araçlar'daki Görsel Oluştur ile deneyebilirsin. İstersen sana bir başlangıç cümlesi yazayım.",
+  "Bu haftaki görevin “Oyunun kuralını anlat”. Hangi oyunu seçtiğini söylersen kurallarını birlikte sıralarız.",
+];
+let ri = 0;
+const bubble = (who, text) => {
+  const li = document.createElement("li"); li.className = `msg ${who}`; li.textContent = text;
+  log.append(li); log.scrollTop = log.scrollHeight; return li;
+};
+$("[data-chat-form]").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const v = input.value.trim(); if (!v) return;
+  pop.classList.add("has-log");
+  bubble("me", v); input.value = ""; grow();
+  const wait = bubble("ai typing", "…");
+  setTimeout(() => { wait.classList.remove("typing"); wait.textContent = REPLIES[ri++ % REPLIES.length]; log.scrollTop = log.scrollHeight; }, 900);
 });
