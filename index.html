@@ -14,6 +14,98 @@
   <link rel="stylesheet" href="css/carousel.css" />
   <script type="module" src="js/page.js"></script>
   <script type="module" src="js/carousel.js"></script>
+  <style>
+    /* v2: Mini CRM öğrenci panelinin dilinde: arama + selam çubuğu, okul renginden mora kart (Kendini Tanı), Son Aktiviteler listesi */
+    .crm-app { --p-s: #345de0; --p-s-ink: #2a4bc0; --p-s-tint: #eef2fd; --p-v: #7b5cf0; --p-v-tint: #f3effe; --p-ink: #11142c; --p-ink-3: #5f6580; --p-line: #e8eaf4;
+      --p-shadow: 0 1px 2px rgba(17, 20, 44, .03), 0 10px 30px -18px rgba(40, 50, 120, .22);
+      display: grid; gap: 14px; margin: 0; padding: 18px; border-radius: 28px; background: #f6f7fd; color: var(--p-ink); box-shadow: 0 40px 80px -40px rgba(0, 0, 0, .8), 0 0 0 1px rgba(255, 255, 255, .06); }
+    .crm-app .icon { width: 16px; height: 16px; }
+    .ca-top { display: flex; align-items: center; gap: 12px; }
+    .ca-search { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; height: 42px; padding: 0 16px; border: 1px solid var(--p-line); border-radius: 21px; background: #fff; box-shadow: var(--p-shadow); font-size: 13.5px; color: var(--p-ink-3); white-space: nowrap; overflow: hidden; }
+    .ca-hello { display: flex; align-items: center; gap: 10px; flex: none; }
+    .ca-av { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--p-s), var(--p-v)); color: #fff; font: 700 13px/1 var(--display); }
+    .ca-hello small { display: block; font-size: 12px; color: var(--p-ink-3); line-height: 1.2; }
+    .ca-hello b { display: block; font: 700 15px/1.2 var(--display); letter-spacing: -0.02em; }
+    .ca-kt { position: relative; overflow: hidden; display: grid; gap: 10px; padding: 20px 22px; border-radius: 24px; color: #fff; background: linear-gradient(135deg, var(--p-s) 0%, var(--p-v) 100%); box-shadow: 0 22px 40px -24px var(--p-v); }
+    .ca-kt::before, .ca-kt::after { content: ""; position: absolute; pointer-events: none; border-radius: 50%; border: 1px solid rgba(255, 255, 255, .22); }
+    .ca-kt::before { width: 260px; height: 260px; right: -110px; top: -70px; }
+    .ca-kt::after { width: 180px; height: 180px; right: -40px; bottom: -110px; border-color: rgba(255, 255, 255, .16); }
+    .ca-kt > * { position: relative; }
+    .ca-kt-top { display: flex; align-items: center; justify-content: space-between; font-size: 15px; font-weight: 500; color: rgba(255, 255, 255, .9); }
+    .ca-new { padding: 4px 10px; border-radius: 999px; background: rgba(255, 255, 255, .2); font-size: 12.5px; font-weight: 700; color: #fff; }
+    .ca-score { display: flex; align-items: baseline; gap: 10px; }
+    .ca-score strong { font: 800 40px/1 var(--display); letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+    .ca-score span { font-size: 13.5px; color: rgba(255, 255, 255, .8); }
+    .ca-bars { display: grid; grid-template-columns: repeat(6, 1fr); gap: 5px; }
+    .ca-bars i { height: 4px; border-radius: 2px; background: linear-gradient(90deg, #fff var(--p), rgba(255, 255, 255, .25) var(--p)); }
+    .ca-btn { justify-self: start; display: inline-flex; align-items: center; gap: 10px; height: 40px; margin-top: 4px; padding: 0 18px; border-radius: 20px; background: #fff; color: var(--p-s-ink); font-size: 14px; font-weight: 700; }
+    .ca-kpis { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 0; }
+    .ca-kpis div { display: flex; flex-direction: column-reverse; gap: 2px; padding: 14px 18px; border: 1px solid rgba(17, 20, 44, .06); border-radius: 20px; background: #fff; box-shadow: var(--p-shadow); }
+    .ca-kpis dt { font-size: 13px; font-weight: 600; color: var(--p-ink-3); }
+    .ca-kpis dd { margin: 0; font: 800 26px/1.1 var(--display); letter-spacing: -0.035em; font-variant-numeric: tabular-nums; }
+    .ca-acts { display: grid; gap: 12px; padding: 18px 20px; border: 1px solid var(--p-line); border-radius: 20px; background: #fff; box-shadow: var(--p-shadow); }
+    .ca-head { display: flex; align-items: center; justify-content: space-between; }
+    .ca-head strong { font: 700 17px/1.2 var(--display); letter-spacing: -0.02em; }
+    .ca-head span { display: inline-flex; align-items: center; gap: 4px; font-size: 13px; color: var(--p-ink-3); }
+    .ca-acts ul { display: grid; gap: 14px; margin: 0; padding: 0; list-style: none; }
+    .ca-acts li { display: grid; grid-template-columns: 50px 1fr auto; gap: 14px; align-items: center; }
+    .ca-thumb { display: grid; place-items: center; width: 50px; height: 50px; border-radius: 14px; color: #fff; box-shadow: 0 6px 14px -8px rgba(17, 20, 44, .45); }
+    .ca-thumb .icon { width: 22px; height: 22px; }
+    .ca-thumb.t1 { background: linear-gradient(135deg, #345de0, #7b5cf0); }
+    .ca-thumb.t2 { background: linear-gradient(135deg, #f3a33b, #e0613a); }
+    .ca-thumb.t3 { background: linear-gradient(135deg, #1e9e8a, #345de0); }
+    .ca-text { min-width: 0; }
+    .ca-text strong { display: block; font-size: 14px; font-weight: 600; }
+    .ca-text span { display: block; font-size: 12.5px; color: var(--p-ink-3); line-height: 1.45; }
+    .ca-ok { display: inline-flex; align-items: center; gap: 5px; padding: 4px 9px; border-radius: 999px; background: #e6f6ef; font-size: 12px; font-weight: 600; color: #047857; white-space: nowrap; }
+    .ca-ok .icon { width: 14px; height: 14px; }
+    .ca-note { display: flex; gap: 10px; margin: 0; padding: 12px 14px; border-radius: 16px; background: linear-gradient(135deg, var(--p-s-tint), var(--p-v-tint)); font-size: 13px; line-height: 1.55; color: #4b5170; }
+    .ca-note .icon { flex: none; margin-top: 2px; color: var(--p-v); }
+    @media (max-width: 479px) {
+      .crm-app { padding: 12px; border-radius: 22px; }
+      .ca-hello > span:last-child { display: none; }
+      .ca-acts { padding: 14px; }
+      .ca-acts li { grid-template-columns: 44px 1fr; }
+      .ca-thumb { width: 44px; height: 44px; }
+      .ca-ok { grid-column: 2; justify-self: start; }
+    }
+    /* yükseklik soldaki üç yolla eşit: kart sütunu doldurur, liste kalan yeri alır */
+    @media (min-width: 1024px) { #okul-sayfasi .paths-grid { align-items: stretch; } .crm-app { height: 100%; grid-template-rows: auto 1fr; } }
+    .crm-app { gap: 12px; padding: 16px; }
+    .ca-kt { gap: 8px; padding: 18px 20px; }
+    .ca-score strong { font-size: 36px; }
+    .ca-mini { display: flex; gap: 8px; margin-top: 4px; }
+    .ca-mini > span { display: inline-flex; align-items: baseline; gap: 6px; padding: 6px 12px; border-radius: 999px; background: rgba(255, 255, 255, .16); font-size: 12.5px; color: rgba(255, 255, 255, .85); }
+    .ca-mini b { font: 800 15px/1 var(--display); color: #fff; letter-spacing: -0.02em; }
+    .ca-acts { align-content: start; gap: 10px; padding: 16px 18px; }
+    .ca-acts ul { gap: 10px; }
+    .ca-acts li { grid-template-columns: 44px 1fr auto; }
+    .ca-thumb { width: 44px; height: 44px; border-radius: 12px; }
+    .ca-thumb .icon { width: 20px; height: 20px; }
+    /* roller: "Okulunuzun dijital kapısı" ile aynı mantık; beyaz kart yok, solda maddeler, sağda panelin ekranı */
+    .rl-panel { padding: 0; background: none; }
+    .rl-grid { display: grid; gap: 36px; align-items: center; max-width: 1120px; margin-inline: auto; }
+    @media (min-width: 1024px) { .rl-grid { grid-template-columns: 1fr 1fr; gap: 64px; } }
+    .rl-list { margin: 0; padding: 0; list-style: none; }
+    .rl-list li { display: grid; grid-template-columns: 48px 1fr; gap: 18px; padding: 24px 0; border-bottom: 1px solid var(--line); }
+    .rl-list li:first-child { padding-top: 4px; }
+    .rl-icon { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 14px; background: rgba(255, 255, 255, .06); color: var(--accent); }
+    .rl-list h3 { font-size: 20px; font-weight: 700; letter-spacing: -0.02em; }
+    .rl-list p { margin: 6px 0 0; color: var(--ink-2); }
+    /* yükseklik: liste ekranla aynı boyda; ilk başlık kartın üst kenarında, son satır alt kenarında */
+    @media (min-width: 1024px) {
+      .rl-grid { align-items: stretch; }
+      .rl-list { display: flex; flex-direction: column; justify-content: space-between; }
+      .rl-list li { padding: 0; border: 0; row-gap: 0; grid-template-rows: auto 1fr; }
+      /* son madde hariç her madde kalan boşluğu paylaşır; ayırıcı çizgi o boşluğun ortasında */
+      .rl-list li:not(:last-child) { flex: 1; }
+      .rl-list li:not(:last-child)::after { content: ""; grid-column: 1 / -1; min-height: 28px; background: linear-gradient(var(--line), var(--line)) center / 100% 1px no-repeat; }
+      .rl-shot { align-self: center; }
+    }
+    @media (min-width: 1024px) and (max-width: 1279px) { .rl-list li:not(:last-child)::after { min-height: 16px; } }
+    .rl-shot { margin: 0; overflow: hidden; border-radius: 22px; background: #f6f7fd; box-shadow: 0 40px 80px -40px rgba(0, 0, 0, .8), 0 0 0 1px rgba(255, 255, 255, .08); }
+    .rl-shot img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; }
+  </style>
 </head>
 <body>
 <a class="skip" href="#okul-sayfasi">İçeriğe geç</a>
@@ -179,37 +271,24 @@
           </li>
         </ol>
 
-        <figure class="panel crm">
-          <figcaption class="crm-head">
-            <span class="crm-icon"><svg class="icon" aria-hidden="true"><use href="#i-inbox" /></svg></span>
-            <span><strong>Mini CRM</strong><small>Yönetici paneli · bugün</small></span>
-            <span class="pill pill-ok">+12 yeni</span>
-          </figcaption>
-          <dl class="crm-stats">
-            <div><dt>Veli talebi</dt><dd>48</dd></div>
-            <div><dt>Yarışmacı</dt><dd>126</dd></div>
-            <div><dt>Ticari izin</dt><dd>%71</dd></div>
-          </dl>
-          <ul class="crm-list">
-            <li>
-              <span class="avatar">A</span>
-              <span class="who"><strong>Ayşe K. <em>· Bilgi talebi</em></strong><small>Ortaokul · 2 dk önce</small></span>
-              <span class="ok"><svg class="icon" aria-hidden="true"><use href="#i-circle-check" /></svg>Aydınlatma</span>
-            </li>
-            <li>
-              <span class="avatar">M</span>
-              <span class="who"><strong>Mert D. <em>· Yarışma</em></strong><small>Kod: OKUL-2026-K4F · 18 dk önce</small></span>
-              <span class="ok"><svg class="icon" aria-hidden="true"><use href="#i-circle-check" /></svg>Veli onayı</span>
-            </li>
-            <li>
-              <span class="avatar">S</span>
-              <span class="who"><strong>Selin A. <em>· Bilgi talebi</em></strong><small>Lise · 1 sa önce</small></span>
-              <span class="ok"><svg class="icon" aria-hidden="true"><use href="#i-circle-check" /></svg>Ticari ileti</span>
-            </li>
-          </ul>
-          <p class="crm-note"><svg class="icon" aria-hidden="true"><use href="#i-info" /></svg>Yarışmaya katılım pazarlama iznine bağlı değildir. Çocuklara ait bilgiler pazarlama amacıyla otomatik kullanılmaz.</p>
+        <figure class="crm-app" aria-label="Mini CRM, yönetici paneli örneği">
+          <div class="ca-kt">
+            <span class="ca-kt-top"><span>Mini CRM · bugün</span><span class="ca-new">+12 yeni</span></span>
+            <span class="ca-score"><strong>48</strong><span>veli talebi</span></span>
+            <span class="ca-bars" aria-hidden="true"><i style="--p:100%"></i><i style="--p:100%"></i><i style="--p:100%"></i><i style="--p:100%"></i><i style="--p:60%"></i><i style="--p:0%"></i></span>
+            <span class="ca-mini"><span><b>126</b>yarışmacı</span><span><b>%71</b>ticari izin</span></span>
+          </div>
+          <section class="ca-acts" aria-label="Son başvurular">
+            <div class="ca-head"><strong>Son Başvurular</strong><span>Tümünü Gör<svg class="icon" aria-hidden="true"><use href="#i-arrow-right" /></svg></span></div>
+            <ul>
+              <li><span class="ca-thumb t1"><svg class="icon" aria-hidden="true"><use href="#i-building2" /></svg></span><span class="ca-text"><strong>Ayşe K. · Bilgi talebi</strong><span>Ortaokul · 2 dk önce</span></span><span class="ca-ok"><svg class="icon" aria-hidden="true"><use href="#i-circle-check" /></svg>Aydınlatma</span></li>
+              <li><span class="ca-thumb t2"><svg class="icon" aria-hidden="true"><use href="#i-trophy" /></svg></span><span class="ca-text"><strong>Mert D. · Yarışma</strong><span>Kod: OKUL-2026-K4F · 18 dk önce</span></span><span class="ca-ok"><svg class="icon" aria-hidden="true"><use href="#i-circle-check" /></svg>Veli onayı</span></li>
+              <li><span class="ca-thumb t3"><svg class="icon" aria-hidden="true"><use href="#i-building2" /></svg></span><span class="ca-text"><strong>Selin A. · Bilgi talebi</strong><span>Lise · 1 sa önce</span></span><span class="ca-ok"><svg class="icon" aria-hidden="true"><use href="#i-circle-check" /></svg>Ticari ileti</span></li>
+            </ul>
+          </section>
         </figure>
       </div>
+
     </div>
   </section>
 
@@ -227,50 +306,34 @@
         <button type="button" role="tab" id="tab-yonetici" aria-controls="panel-yonetici" aria-selected="false" tabindex="-1">Yönetici</button>
       </div>
 
-      <div class="app-frame">
-        <div class="app-bar">
-          <span class="badge" data-school-initial>D</span>
-          <span class="app-name"><strong><span data-school-name>Demo Koleji</span> AI</strong><small>Yapay Zekâ Ekosistemi</small></span>
-          <span class="app-profile" data-role-profile>Öğrenci profili</span>
-        </div>
-
-        <div class="tabpanel" role="tabpanel" id="panel-ogrenci" aria-labelledby="tab-ogrenci" tabindex="0" data-profile="Öğrenci profili">
-          <h3>Menüler arasında kaybolmadan, kendi okulunun AI dünyasında.</h3>
-          <p>Öğrenci giriş yaptığında doğrudan kurumunun AI ekosistemini görür. Araçlar, sohbet ve görevler; düzeyine ve eksik alanlarına göre bireyselleşir.</p>
-          <ul class="tools">
-            <li><svg class="icon" aria-hidden="true"><use href="#i-wand-sparkles" /></svg><h4>Araç</h4><p>Üretim, araştırma ve öğrenme için rolüne uygun AI araçları.</p></li>
-            <li><svg class="icon" aria-hidden="true"><use href="#i-messages-square" /></svg><h4>Chat</h4><p>Seviyeni ve ilgini bilen kişisel AI sohbet alanı.</p></li>
-            <li><svg class="icon" aria-hidden="true"><use href="#i-workflow" /></svg><h4>Akış</h4><p>Adım adım çalışan yapay zekâ senaryoları.</p></li>
-            <li><svg class="icon" aria-hidden="true"><use href="#i-bot" /></svg><h4>Ajan</h4><p>Senin adına belirli görevleri yürüten AI ajanları.</p></li>
-            <li><svg class="icon" aria-hidden="true"><use href="#i-clipboard-check" /></svg><h4>Görev</h4><p>Öğrenme görevleri, teslimler ve gelişim aksiyonları.</p></li>
-            <li><svg class="icon" aria-hidden="true"><use href="#i-users" /></svg><h4>Topluluk</h4><p>Paylaşımlar, ilgi grupları ve birlikte öğrenme.</p></li>
+      <div class="tabpanel rl-panel" role="tabpanel" id="panel-ogrenci" aria-labelledby="tab-ogrenci" tabindex="0" data-profile="Öğrenci profili">
+        <div class="rl-grid">
+          <ul class="rl-list">
+            <li><span class="rl-icon"><svg class="icon" aria-hidden="true"><use href="#i-clipboard-check" /></svg></span><div><h3>Haftanın AI görevi</h3><p>Her hafta derslerle bağlantılı bir görev; teslim edince öğretmeninden geri bildirim gelir.</p></div></li>
+            <li><span class="rl-icon"><svg class="icon" aria-hidden="true"><use href="#i-brain-circuit" /></svg></span><div><h3>Kendini Tanı</h3><p>Ekosistemdeki çalışmaları Maarif Modeli’nin altı beceri alanında puana dönüşür.</p></div></li>
+            <li><span class="rl-icon"><svg class="icon" aria-hidden="true"><use href="#i-wand-sparkles" /></svg></span><div><h3>Rolüne uygun araçlar</h3><p>Görsel, video, müzik, kod ve 3D üretimi tek yerde; yanında AI-LA sohbet.</p></div></li>
           </ul>
+          <figure class="rl-shot"><img src="assets/paneller/ogrenci.webp" width="1600" height="1000" decoding="async" alt="Öğrenci paneli: haftanın AI görevi, öne çıkan araçlar, Kendini Tanı beceri puanı, görev geri bildirimi ve son aktiviteler" /></figure>
         </div>
-
-        <div class="tabpanel" role="tabpanel" id="panel-ogretmen" aria-labelledby="tab-ogretmen" tabindex="0" data-profile="Öğretmen profili" hidden>
-          <h3>Ders planından sınav okumaya, öğretmenin AI çalışma alanı.</h3>
-          <p>Öğretmen; araç, chat, akış ve ajanlara ek olarak whiteboard ve sınıf yönetimine ulaşır. AI destekli ölçme-değerlendirme süreçleri ekosistem içinde desteklenir.</p>
-          <ul class="tools">
-            <li><svg class="icon" aria-hidden="true"><use href="#i-wand-sparkles" /></svg><h4>Akıllı Araçlar</h4><p>Ders planı, karışık sınav, veli toplantısı raporu ve daha fazlası.</p></li>
-            <li><svg class="icon" aria-hidden="true"><use href="#i-messages-square" /></svg><h4>Chat</h4><p>İçerik, fikir geliştirme ve rehberlik için AI sohbeti.</p></li>
-            <li><svg class="icon" aria-hidden="true"><use href="#i-presentation" /></svg><h4>Whiteboard</h4><p>Tahta içerikleri, görseller ve özetler için hızlı üretim.</p></li>
-            <li><svg class="icon" aria-hidden="true"><use href="#i-building2" /></svg><h4>Sınıf Yönetimi</h4><p>Şube, öğrenci, görev ve takip ekranları.</p></li>
-            <li><svg class="icon" aria-hidden="true"><use href="#i-git-branch" /></svg><h4>Ajan &amp; Akış</h4><p>Raporlama, analiz ve içerik üreten otomasyonlar.</p></li>
-            <li><svg class="icon" aria-hidden="true"><use href="#i-users" /></svg><h4>Topluluk</h4><p>Meslektaş paylaşımı ve ortak kaynak üretimi.</p></li>
+      </div>
+      <div class="tabpanel rl-panel" role="tabpanel" id="panel-ogretmen" aria-labelledby="tab-ogretmen" tabindex="0" data-profile="Öğretmen profili" hidden>
+        <div class="rl-grid">
+          <ul class="rl-list">
+            <li><span class="rl-icon"><svg class="icon" aria-hidden="true"><use href="#i-presentation" /></svg></span><div><h3>Ders tahtası</h3><p>Kalem, fosforlu kalem ve yapışkan notlarla anlat; tahtayı kaydet, sınıfla paylaş.</p></div></li>
+            <li><span class="rl-icon"><svg class="icon" aria-hidden="true"><use href="#i-lightbulb" /></svg></span><div><h3>Ders planı ve sınav</h3><p>Kazanıma uygun plan, seviyeye göre karışık sınav ve rubrik dakikalar içinde.</p></div></li>
+            <li><span class="rl-icon"><svg class="icon" aria-hidden="true"><use href="#i-chart" /></svg></span><div><h3>Sınıfların beceri haritası</h3><p>Her şubenin altı beceri alanındaki durumu tek bakışta.</p></div></li>
           </ul>
+          <figure class="rl-shot"><img src="assets/paneller/ogretmen.webp" width="1600" height="1000" decoding="async" alt="Öğretmen paneli: okul duyurusu, öne çıkan araçlar, beceri haritası, whiteboard ve sınıfların durumu" /></figure>
         </div>
-
-        <div class="tabpanel" role="tabpanel" id="panel-yonetici" aria-labelledby="tab-yonetici" tabindex="0" data-profile="Yönetici profili" hidden>
-          <h3>Kurumun yapay zekâ ekosistemini tek merkezden yönetin.</h3>
-          <p>Kullanıcıları, AI politikalarını, ajanları, krediyi ve kurumsal hafızayı yönetin. Köprü ile bağlı platformlardan gelen veriyi standart biçimde analiz edin.</p>
-          <ul class="tools">
-            <li><svg class="icon" aria-hidden="true"><use href="#i-users" /></svg><h4>Kullanıcılar</h4><p>Öğrenci, öğretmen ve yönetici erişimleri.</p></li>
-            <li><svg class="icon" aria-hidden="true"><use href="#i-shield-check" /></svg><h4>AI Politikaları</h4><p>Güvenli AI katmanı, rol yetkileri ve model sınırları.</p></li>
-            <li><svg class="icon" aria-hidden="true"><use href="#i-database" /></svg><h4>Kurumsal Hafıza</h4><p>Belgeler ve kuruma özel bilgi kaynakları.</p></li>
-            <li><svg class="icon" aria-hidden="true"><use href="#i-workflow" /></svg><h4>Ajan ve Akış</h4><p>Kurum genelinde ajan ve flow şablonları.</p></li>
-            <li><svg class="icon" aria-hidden="true"><use href="#i-inbox" /></svg><h4>Mini CRM</h4><p>Web sitesinden gelen veli ve yarışma başvuruları.</p></li>
-            <li><svg class="icon" aria-hidden="true"><use href="#i-chart" /></svg><h4>Kredi &amp; Rapor</h4><p>Lisans, kullanım, maliyet ve performans.</p></li>
+      </div>
+      <div class="tabpanel rl-panel" role="tabpanel" id="panel-yonetici" aria-labelledby="tab-yonetici" tabindex="0" data-profile="Yönetici profili" hidden>
+        <div class="rl-grid">
+          <ul class="rl-list">
+            <li><span class="rl-icon"><svg class="icon" aria-hidden="true"><use href="#i-chart" /></svg></span><div><h3>Kurum raporu</h3><p>Öğrenci, öğretmen, AI üretimi ve zaman tasarrufu tek ekranda; erken uyarılarla.</p></div></li>
+            <li><span class="rl-icon"><svg class="icon" aria-hidden="true"><use href="#i-layers" /></svg></span><div><h3>Beceri haritası ve kademeler</h3><p>İlkokul, ortaokul ve lise aynı altı beceri alanında karşılaştırılır.</p></div></li>
+            <li><span class="rl-icon"><svg class="icon" aria-hidden="true"><use href="#i-earth" /></svg></span><div><h3>Ekosistem verisi</h3><p>Bağlı platformlardan gelen veri tek yerde, standart biçimde.</p></div></li>
           </ul>
+          <figure class="rl-shot"><img src="assets/paneller/yonetici.webp" width="1600" height="1000" decoding="async" alt="Yönetici paneli: kurum raporu, uyarılar, AI kullanımı, kurum beceri haritası ve ekosistem verileri" /></figure>
         </div>
       </div>
     </div>
